@@ -32,7 +32,7 @@ If you pass all five, you are not "secure." You are **not immediately on fire.**
 ```bash
 # Requires: Go 1.22+, Python 3.9+, AWS credentials
 aws configure
-go install github.com/emmanueladesina/cloudvitals@latest
+go install github.com/EmmanuelAdesina/CloudVitals@latest
 cloudvitals scan
 ```
 
