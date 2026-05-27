@@ -84,7 +84,7 @@ func boxScore(score int, status string) string {
 
 	return fmt.Sprintf(`
 %s┌────────────────────────────────────────────────────────────┐%s
-%s│%s  %s CloudVitals Security Score %s                              %s│%s
+%s│%s  %sCloudVitals Security Score%s                              %s│%s
 %s│%s                                                            %s│%s
 %s│%s  %s%d/100%s  %s[%s%s%s]%s                    %s%s%s  %s│%s
 %s│%s                                                            %s│%s
@@ -139,8 +139,11 @@ func Render(results []core.CheckResult, score int) {
 		}
 		failCount++
 
+		sevColor := color(r.Severity)
+		sevLabel := strings.ToUpper(string(r.Severity))
+
 		fmt.Printf("%s┌─ %sFINDING %d%s / %s%s%s ─────────────────────────────────────┐%s\n",
-			red, bold, failCount, reset, color(r.Severity), strings.ToUpper(string(r.Severity)), reset, red, reset)
+			red, bold, failCount, reset, sevColor, sevLabel, reset, red, reset)
 
 		for _, f := range r.Findings {
 			fmt.Printf("  %sResource:%s  %s%s%s\n", cyan, reset, white, f.Resource, reset)
