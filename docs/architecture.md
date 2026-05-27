@@ -17,28 +17,70 @@ The system is intentionally lightweight:
 ```mermaid
 flowchart TD
 
-    A[Developer Runs CLI] --> B[CloudVitals CLI]
+%%{init: {'theme': 'dark', 'themeVariables': { 'primaryColor': '#1e1e2e', 'primaryTextColor': '#cdd6f4', 'primaryBorderColor': '#89b4fa', 'lineColor': '#89b4fa', 'secondaryColor': '#313244', 'tertiaryColor': '#45475a'}}}%%
+flowchart TB
+    subgraph CLI["CloudVitals CLI (Go)"]
+        direction TB
+        M[("main.go")]
+        R["Runner<br/>goroutines"]
+        S["Scorer<br/>0-100"]
+        RE["Renderer<br/>terminal / JSON"]
+    end
 
-    B --> C[AWS Credential Loader]
-    C --> D[AWS SDK Client]
+    subgraph REG["Configuration"]
+        direction TB
+        Y[("checks.yaml<br/>registry")]
+    end
 
-    D --> E[S3 Public Access Checks]
-    D --> F[Security Group Checks]
-    D --> G[EBS Encryption Checks]
-    D --> H[MFA Validation]
-    D --> I[CloudTrail Validation]
+    subgraph PROV["Provider Layer"]
+        direction TB
+        PI["Provider Interface"]
+        AWS["AWS Provider<br/>Go wrapper"]
+    end
 
-    E --> J[Risk Engine]
-    F --> J
-    G --> J
-    H --> J
-    I --> J
+    subgraph EXEC["Check Execution (Python)"]
+        direction LR
+        C1["s3_public.py"]
+        C2["sg_open.py"]
+        C3["ebs_encrypt.py"]
+        C4["root_mfa.py"]
+        C5["cloudtrail.py"]
+    end
 
-    J --> K[Security Score Generator]
-    J --> L[Remediation Engine]
+    subgraph OUT["Output"]
+        direction LR
+        T["Terminal Table"]
+        J["JSON"]
+        SAR["SARIF"]
+    end
 
-    K --> M[Terminal UI Output]
-    L --> M
+    M -->|"loads"| Y
+    Y -->|"[]CheckConfig"| M
+    M -->|"dispatches"| R
+    R -->|"RunCheck()"| PI
+    PI -->|"spawns"| AWS
+    AWS -->|"exec.Command"| C1
+    AWS -->|"exec.Command"| C2
+    AWS -->|"exec.Command"| C3
+    AWS -->|"exec.Command"| C4
+    AWS -->|"exec.Command"| C5
+    C1 -->|"JSON stdout"| AWS
+    C2 -->|"JSON stdout"| AWS
+    C3 -->|"JSON stdout"| AWS
+    C4 -->|"JSON stdout"| AWS
+    C5 -->|"JSON stdout"| AWS
+    AWS -->|"CheckResult"| R
+    R -->|"[]CheckResult"| S
+    S -->|"score + results"| RE
+    RE --> T
+    RE --> J
+    RE --> SAR
+
+    style CLI fill:#1e1e2e,stroke:#89b4fa,stroke-width:2px
+    style REG fill:#1e1e2e,stroke:#f9e2af,stroke-width:2px
+    style PROV fill:#1e1e2e,stroke:#a6e3a1,stroke-width:2px
+    style EXEC fill:#1e1e2e,stroke:#fab387,stroke-width:2px
+    style OUT fill:#1e1e2e,stroke:#cba6f7,stroke-width:2px
 ```
 
 ---
