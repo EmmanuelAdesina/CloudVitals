@@ -1,0 +1,8 @@
+checks:
+  - id: s3_public
+    name: "Public S3 Bucket Access"
+    description: "Detects S3 buckets with public access block not fully enforced"
+    provider: aws
+    severity: critical
+    script: s3_public.py
+
