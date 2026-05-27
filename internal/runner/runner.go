@@ -3,11 +3,10 @@ package runner
 import (
 	"sync"
 
-	"github.com/reliastra/cloudvitals/internal/core"
-	"github.com/reliastra/cloudvitals/internal/providers"
+	"github.com/EmmanuelAdesina/CloudVitals/internal/core"
 )
 
-func RunChecks(p providers.Provider, checks []core.CheckConfig, profile string, region string) []core.CheckResult {
+func RunChecks(p core.Provider, checks []core.CheckConfig, profile string, region string) []core.CheckResult {
 	var wg sync.WaitGroup
 	results := make([]core.CheckResult, len(checks))
 	var mu sync.Mutex

@@ -1,6 +1,6 @@
 package scorer
 
-import "github.com/reliastra/cloudvitals/internal/core"
+import "github.com/EmmanuelAdesina/CloudVitals/internal/core"
 
 func Calculate(results []core.CheckResult) int {
 	score := 100

@@ -30,9 +30,14 @@ type Finding struct {
 type CheckResult struct {
 	CheckID    string    `json:"check_id"`
 	CheckName  string    `json:"check_name"`
-	Status     string    `json:"status"` // pass, fail, error
+	Status     string    `json:"status"`
 	Severity   Severity  `json:"severity"`
 	Findings   []Finding `json:"findings"`
 	ExecutedAt time.Time `json:"executed_at"`
 	ErrorMsg   string    `json:"error_msg,omitempty"`
+}
+
+type Provider interface {
+	Name() string
+	RunCheck(check CheckConfig, profile string, region string) (*CheckResult, error)
 }

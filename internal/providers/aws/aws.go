@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/reliastra/cloudvitals/internal/core"
+	"github.com/EmmanuelAdesina/CloudVitals/internal/core"
 )
 
 type AWSProvider struct {
@@ -39,7 +39,6 @@ func (a *AWSProvider) RunCheck(check core.CheckConfig, profile string, region st
 		return nil, fmt.Errorf("check %s failed: %v | output: %s", check.ID, err, string(output))
 	}
 
-	// Enrich with registry metadata
 	result.CheckID = check.ID
 	result.CheckName = check.Name
 	result.Severity = check.Severity
