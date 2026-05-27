@@ -1,5 +1,3 @@
-Here is the README. Copy it directly into your repository.
-
 ---
 
 ```markdown
@@ -212,7 +210,4 @@ MIT License — see [LICENSE](LICENSE)
 
 **One sentence:** CloudVitals checks the five AWS misconfigurations that actually destroy companies, gives you a security score, and tells you exactly how to fix them. In 10 seconds. For free.
 ```
-
----
-
 
