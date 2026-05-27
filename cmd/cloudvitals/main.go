@@ -19,7 +19,7 @@ func main() {
 	mockMode := flag.Bool("mock", false, "Use mock provider for testing")
 	flag.Parse()
 
-	registry, err := core.LoadRegistry("config/checks.yaml")
+	registry, err := core.LoadRegistry("config/checks.json")
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error loading registry: %v\n", err)
 		os.Exit(1)

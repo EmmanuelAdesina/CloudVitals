@@ -1,14 +1,13 @@
 package core
 
 import (
+	"encoding/json"
 	"os"
 	"strings"
-
-	"gopkg.in/yaml.v3"
 )
 
 type Registry struct {
-	Checks []CheckConfig `yaml:"checks"`
+	Checks []CheckConfig `json:"checks"`
 }
 
 func LoadRegistry(path string) (*Registry, error) {
@@ -17,7 +16,7 @@ func LoadRegistry(path string) (*Registry, error) {
 		return nil, err
 	}
 	var r Registry
-	if err := yaml.Unmarshal(data, &r); err != nil {
+	if err := json.Unmarshal(data, &r); err != nil {
 		return nil, err
 	}
 	return &r, nil
