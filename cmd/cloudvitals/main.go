@@ -35,3 +35,14 @@ func main() {
 	score := scorer.Calculate(results)
 	renderer.Render(results, score)
 }
+
+
+var mockMode = flag.Bool("mock", false, "Use mock provider for testing")
+
+// ...
+var provider providers.Provider
+if *mockMode {
+    provider = mock.New()
+} else {
+    provider = aws.New()
+}
